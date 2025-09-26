@@ -1,0 +1,254 @@
+<!-- inspiration https://codepen.io/jackrugile/pen/LbYWZR -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulakao</title>
+    <meta name="description" content="Watch meteors streak across the starry sky">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☄️%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            align-items: center;
+            background: #000;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            pointer-events: none;
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .title {
+            font-family: "Bree Serif", serif;
+            font-size: 8rem;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 2rem;
+        }
+
+        .definition {
+            font-family: serif;
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                max-width: 90%;
+            }
+            .title {
+                font-size: 4rem;
+            }
+            .definition {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                max-width: 95%;
+            }
+            .title {
+                font-size: 3rem;
+            }
+            .definition {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <div class="content">
+        <div class="title">bulakao</div>
+        <div class="definition">
+            <p><em>[bu.lá.kaw.]</em> : a shooting star.</p>
+        </div>
+    </div>
+
+    <script>
+        const PI = Math.PI;
+        const HALFPI = PI * 0.5;
+        const TAU = PI * 2;
+
+        const rand = (min, max) => Math.random() * (max - min) + min;
+        const hsla = (h, s, l, a) => `hsla(${h}, ${s}%, ${l}%, ${a})`;
+
+        /*===========================================
+        Star
+        ===========================================*/
+
+        class Star {
+            constructor() {
+                this.radius = rand(1, 4);
+                this.radiusBase = this.radius;
+                this.x = rand(20, canvas.width - 20);
+                this.y = rand(20, canvas.height - 20);
+                this.pulse = rand(0, 100);
+            }
+            step() {
+                this.radius = this.radiusBase + Math.sin(this.pulse * 0.05) * this.radiusBase * 0.5;
+                this.pulse++;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, TAU);
+                ctx.fill();
+            }
+        }
+
+        /*===========================================
+        Meteor
+        ===========================================*/
+
+        class Meteor {
+            constructor() {
+                this.angle = HALFPI - (45 / 360) * TAU;
+                this.emojis = ['🌟', '⭐', '✨', '💥', '🛸', '👽', '💎', '💬', '📱', '📞', '📧', '💌', '📢', '🔔', '📺', '📻', '🎮', '🎯', '🎲', '🃏', '🎪', '🎨', '🎭', '🎵', '🎶', '📊', '📈', '📋', '📝', '📄', '📑', '📚', '📖', '🔍', '🛒', '💳', '💰', '💸', '🏪', '🛍️', '💍', '⌚', '🗺️', '🧭', '✈️', '🚗', '🚕', '🚙', '🏠', '🏢', '🌍', '🍕', '🍔', '☕', '🍰', '🎂', '🍎', '🥗', '🍽️', '🏃', '⚙️', '🔧', '🔨', '🛠️', '💻', '⌨️', '🖥️', '📷', '📹', '💊', '🏥', '⚕️', '🩺', '💉', '🧘', '🏋️', '🚴', '🏊', '🌤️', '⛅', '🌧️', '❄️', '🌈', '🌺', '🌸', '🌻', '🌷'];
+                this.reset();
+            }
+            reset() {
+                this.radius = rand(8, 18);
+                this.x = rand(-canvas.width, canvas.width);
+                this.y = rand(-canvas.height, -this.radius * 2 - 10);
+                this.vel = this.radius * 0.15;
+                this.tail = this.radius * 16;
+                this.pulse = rand(0, 100);
+                this.anglePulse = 0;
+                this.emoji = this.emojis[Math.floor(Math.random() * this.emojis.length)];
+            }
+            step() {
+                this.pulse++;
+                this.anglePulse = Math.sin(this.pulse * 0.1) * 0.1;
+                
+                this.x += Math.cos(this.angle) * this.vel;
+                this.y += Math.sin(this.angle) * this.vel;
+                
+                this.sx = this.x + Math.cos(this.angle + PI) * this.radius * 2;
+                this.sy = this.y + Math.sin(this.angle + PI) * this.radius * 2;
+                this.ex = this.sx + Math.cos(this.angle + PI) * this.tail;
+                this.ey = this.sy + Math.sin(this.angle + PI) * this.tail;
+                
+                if (this.ey > canvas.height + 10) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.lineWidth = this.radius * 0.35;
+                ctx.font = `${this.radius * 2}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.emoji, this.x, this.y);
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * 2, this.angle - HALFPI + this.anglePulse, this.angle + HALFPI + this.anglePulse);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(this.sx, this.sy);
+                ctx.lineTo(this.ex, this.ey);
+                ctx.stroke();
+            }
+        }
+
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let meteors = [];
+        let stars = [];
+        let gradient;
+        
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#fff';
+            
+            gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 15; i++) {
+                const color = hsla(244 + i * 5, 25, 12 + i * 3, 1);
+                const pos1 = i / 15;
+                const pos2 = (i + 1) / 15;
+                gradient.addColorStop(pos1, color);
+                gradient.addColorStop(pos2, color);
+            }
+            
+            meteors = Array.from({length: 20}, () => new Meteor());
+            stars = Array.from({length: 50}, () => new Star());
+            
+            loop();
+        }
+
+        function step() {
+            meteors.forEach(meteor => meteor.step());
+            stars.forEach(star => star.step());
+        }
+
+        function draw() {
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            meteors.forEach(meteor => meteor.draw());
+            stars.forEach(star => star.draw());
+        }
+
+        function loop() {
+            requestAnimationFrame(loop);
+            step();
+            draw();
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 15; i++) {
+                const color = hsla(244 + i * 5, 25, 12 + i * 3, 1);
+                const pos1 = i / 15;
+                const pos2 = (i + 1) / 15;
+                gradient.addColorStop(pos1, color);
+                gradient.addColorStop(pos2, color);
+            }
+            
+            meteors.forEach(meteor => meteor.reset());
+            stars.forEach(star => {
+                star.x = rand(20, canvas.width - 20);
+                star.y = rand(20, canvas.height - 20);
+            });
+        });
+
+        init();
+    </script>
+</body>
+</html>
