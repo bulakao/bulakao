@@ -287,6 +287,15 @@
             line-height: 1.65;
         }
 
+        .hero-actions {
+            grid-column: 1 / 7;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem clamp(1.5rem, 3vw, 2.5rem);
+            margin-top: 1.25rem;
+        }
+
         .service {
             min-height: 100svh;
             display: grid;
@@ -484,22 +493,28 @@
             outline-offset: 5px;
         }
 
-        .partner .button {
+        .partner .button,
+        .button-partner {
             color: var(--partner-strong);
         }
 
         .partner .button:hover,
-        .partner .button:focus-visible {
+        .partner .button:focus-visible,
+        .button-partner:hover,
+        .button-partner:focus-visible {
             border-color: var(--star);
             color: var(--star);
         }
 
-        .solutions .button {
+        .solutions .button,
+        .button-solutions {
             color: var(--gold);
         }
 
         .solutions .button:hover,
-        .solutions .button:focus-visible {
+        .solutions .button:focus-visible,
+        .button-solutions:hover,
+        .button-solutions:focus-visible {
             border-color: var(--star);
             color: var(--star);
         }
@@ -578,6 +593,10 @@
                 grid-column: 1 / 11;
             }
 
+            .hero-actions {
+                grid-column: 1 / 11;
+            }
+
             .service {
                 min-height: auto;
                 padding-block: 7rem;
@@ -629,6 +648,7 @@
 
             .hero h1,
             .hero p,
+            .hero-actions,
             .partner .service-title,
             .partner .service-intro,
             .partner .value-list,
@@ -646,6 +666,13 @@
             .hero p {
                 margin-top: 1.6rem;
                 font-size: 1rem;
+            }
+
+            .hero-actions {
+                display: grid;
+                justify-items: start;
+                gap: 0.25rem;
+                margin-top: 1rem;
             }
 
             .service {
@@ -728,6 +755,10 @@
             <div class="hero-grid shell reveal">
                 <h1 id="hero-title">Campaigns and operations, with fewer loose ends.</h1>
                 <p>Partner coordinates creator campaigns from matching to reporting. Solutions replaces manual workflows with internal tools, automation, and applied AI.</p>
+                <div class="hero-actions" aria-label="Explore Bulakao services">
+                    <a class="button button-solutions" href="https://solutions.bulakao.com/">Build with Solutions</a>
+                    <a class="button button-partner" href="https://partner.bulakao.com/">Run a campaign with Partner</a>
+                </div>
             </div>
         </section>
 
@@ -742,7 +773,7 @@
                 <div class="service-intro">
                     <p class="service-copy">Solutions starts with the spreadsheet, handoff, approval, or report causing the most friction, then builds the tool and improves it from real use.</p>
                     <div class="service-action">
-                        <a class="button" href="https://solutions.bulakao.com/">See what Solutions builds</a>
+                        <a class="button" href="https://solutions.bulakao.com/">Build with Solutions</a>
                     </div>
                 </div>
                 <ol class="value-list">
