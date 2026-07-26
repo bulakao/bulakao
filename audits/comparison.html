@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bulakao Gateway — Design Comparison</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --night: #03050b;
+            --panel: #080d16;
+            --line: rgba(247, 243, 234, 0.16);
+            --star: #f7f3ea;
+            --muted: #a9adba;
+            --gold: #f5c76b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--night);
+            color: var(--star);
+            font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        }
+
+        main {
+            width: min(1500px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+        header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 22px;
+        }
+
+        h1,
+        p {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        header p {
+            max-width: 680px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            text-align: right;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 430px 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .implementations {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        figure {
+            min-width: 0;
+            margin: 0;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+        }
+
+        figcaption {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--line);
+            font-size: 0.78rem;
+        }
+
+        figcaption span:last-child {
+            color: var(--muted);
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .source img {
+            height: 862px;
+            object-fit: contain;
+            object-position: top center;
+            background: #02040a;
+        }
+
+        .implementation img {
+            aspect-ratio: 1.40625;
+            object-fit: cover;
+        }
+
+        .implementation:last-child {
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: calc(50% - 8px);
+        }
+
+        .note {
+            color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Bulakao gateway comparison</h1>
+            <p><span class="note">Intentional revision:</span> the selected mock established the typography, palette, three-section structure, and single star field. The implementation replaces its uniform left alignment with the user-requested asymmetric editorial grid.</p>
+        </header>
+
+        <div class="comparison">
+            <figure class="source">
+                <figcaption><span>Selected visual target</span><span>864 × 1821</span></figcaption>
+                <img src="source/bulakao-gateway-selected-reference.png" alt="Selected Bulakao gateway design target">
+            </figure>
+
+            <div class="implementations">
+                <figure class="implementation">
+                    <figcaption><span>Implementation · Hero</span><span>1440 × 1024</span></figcaption>
+                    <img src="implementation/home-desktop-hero.png" alt="Implemented Bulakao hero">
+                </figure>
+                <figure class="implementation">
+                    <figcaption><span>Implementation · Partner</span><span>1440 × 1024</span></figcaption>
+                    <img src="implementation/home-desktop-partner.png" alt="Implemented Bulakao Partner section">
+                </figure>
+                <figure class="implementation">
+                    <figcaption><span>Implementation · Solutions</span><span>1440 × 1024</span></figcaption>
+                    <img src="implementation/home-desktop-solutions.png" alt="Implemented Bulakao Solutions section">
+                </figure>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
