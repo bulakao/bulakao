@@ -117,14 +117,42 @@
             z-index: -1;
             overflow: hidden;
             background:
-                radial-gradient(circle at 78% 18%, rgba(112, 214, 255, 0.11), transparent 28rem),
-                radial-gradient(circle at 18% 54%, rgba(240, 138, 120, 0.07), transparent 24rem),
-                radial-gradient(circle at 70% 88%, rgba(245, 199, 107, 0.08), transparent 26rem),
-                linear-gradient(180deg, #02040a 0%, #060c16 50%, #03050b 100%);
+                radial-gradient(circle at 78% 16%, rgba(112, 214, 255, 0.2), transparent 31rem),
+                radial-gradient(circle at 16% 48%, rgba(240, 138, 120, 0.12), transparent 27rem),
+                radial-gradient(circle at 72% 86%, rgba(245, 199, 107, 0.14), transparent 30rem),
+                radial-gradient(circle at 44% 58%, rgba(74, 109, 168, 0.1), transparent 34rem),
+                linear-gradient(180deg, #01030a 0%, #07111f 48%, #02050d 100%);
+        }
+
+        .sky::before,
+        .sky::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .sky::before {
+            inset: -18%;
+            background:
+                radial-gradient(ellipse at 32% 48%, rgba(112, 214, 255, 0.11), transparent 25%),
+                radial-gradient(ellipse at 58% 52%, rgba(247, 243, 234, 0.07), transparent 22%),
+                radial-gradient(ellipse at 72% 46%, rgba(245, 199, 107, 0.08), transparent 20%);
+            filter: blur(28px);
+            opacity: 0.9;
+            transform: rotate(-13deg) scale(1.08);
+            animation: sky-breathe 14s ease-in-out infinite alternate;
+        }
+
+        .sky::after {
+            inset: 0;
+            background:
+                linear-gradient(112deg, transparent 25%, rgba(105, 151, 203, 0.04) 43%, rgba(247, 243, 234, 0.035) 50%, rgba(245, 199, 107, 0.035) 57%, transparent 74%);
+            opacity: 0.85;
         }
 
         .star {
             position: absolute;
+            z-index: 1;
             top: var(--y);
             left: var(--x);
             width: var(--size);
@@ -135,6 +163,47 @@
             opacity: var(--alpha);
             animation: twinkle var(--speed) ease-in-out infinite;
             animation-delay: var(--delay);
+        }
+
+        .star.bright {
+            box-shadow:
+                0 0 var(--glow) var(--color),
+                0 0 var(--halo) rgba(112, 214, 255, 0.2);
+        }
+
+        .comet {
+            position: absolute;
+            z-index: 2;
+            top: var(--comet-y);
+            left: var(--comet-x);
+            width: var(--comet-length);
+            height: var(--comet-height);
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(255, 248, 218, 0.98), rgba(112, 214, 255, 0.46) 30%, transparent 100%);
+            box-shadow: 0 0 18px rgba(245, 199, 107, 0.42);
+            opacity: 0;
+            transform: rotate(var(--comet-angle)) translateX(0);
+            transform-origin: left center;
+            animation: comet-pass var(--comet-speed) ease-in-out infinite;
+            animation-delay: var(--comet-delay);
+        }
+
+        .comet.small {
+            --comet-length: 130px;
+            --comet-height: 1px;
+        }
+
+        .comet.medium {
+            --comet-length: 210px;
+            --comet-height: 2px;
+        }
+
+        .comet.large {
+            --comet-length: 300px;
+            --comet-height: 3px;
+            box-shadow:
+                0 0 24px rgba(245, 199, 107, 0.48),
+                0 0 70px rgba(112, 214, 255, 0.14);
         }
 
         .shell {
@@ -451,13 +520,43 @@
         @keyframes twinkle {
             0%,
             100% {
-                opacity: calc(var(--alpha) * 0.42);
-                transform: scale(0.78);
+                opacity: calc(var(--alpha) * 0.48);
+                transform: scale(0.76);
             }
 
             50% {
                 opacity: var(--alpha);
-                transform: scale(1);
+                transform: scale(1.12);
+            }
+        }
+
+        @keyframes sky-breathe {
+            from {
+                opacity: 0.64;
+                transform: rotate(-13deg) scale(1.04) translate3d(-1%, 0, 0);
+            }
+
+            to {
+                opacity: 0.96;
+                transform: rotate(-11deg) scale(1.12) translate3d(1%, -1%, 0);
+            }
+        }
+
+        @keyframes comet-pass {
+            0%,
+            36% {
+                opacity: 0;
+                transform: rotate(var(--comet-angle)) translateX(0);
+            }
+
+            44% {
+                opacity: 0.96;
+            }
+
+            62%,
+            100% {
+                opacity: 0;
+                transform: rotate(var(--comet-angle)) translateX(var(--comet-travel));
             }
         }
 
@@ -604,6 +703,10 @@
                 opacity: 1;
                 transform: none;
             }
+
+            .comet {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -628,35 +731,13 @@
             </div>
         </section>
 
-        <section class="service partner" id="partner" aria-labelledby="partner-title">
-            <div class="service-grid shell reveal">
-                <div class="service-title">
-                    <p class="section-label">Bulakao Partner</p>
-                    <h2 id="partner-title">Relevant creators. Clear terms. One owner from brief to report.</h2>
-                </div>
-                <span class="section-number" aria-hidden="true">01</span>
-
-                <div class="service-intro">
-                    <p class="service-copy">Partner helps brands find creators who fit the audience and campaign, helps creators assess the opportunity, and keeps the work moving through delivery and reporting.</p>
-                    <div class="service-action">
-                        <a class="button" href="https://partner.bulakao.com/">See how Partner works</a>
-                    </div>
-                </div>
-                <ol class="value-list">
-                    <li><span>01</span><strong>Matching based on audience and campaign fit</strong></li>
-                    <li><span>02</span><strong>Briefs, deliverables, timelines, and approvals</strong></li>
-                    <li><span>03</span><strong>Coordination from outreach through reporting</strong></li>
-                </ol>
-            </div>
-        </section>
-
         <section class="service solutions" id="solutions" aria-labelledby="solutions-title">
             <div class="service-grid shell reveal">
                 <div class="service-title">
                     <p class="section-label">Bulakao Solutions</p>
                     <h2 id="solutions-title">Replace one manual workflow with software your team can use.</h2>
                 </div>
-                <span class="section-number" aria-hidden="true">02</span>
+                <span class="section-number" aria-hidden="true">01</span>
 
                 <div class="service-intro">
                     <p class="service-copy">Solutions starts with the spreadsheet, handoff, approval, or report causing the most friction, then builds the tool and improves it from real use.</p>
@@ -668,6 +749,28 @@
                     <li><span>01</span><strong>Start with one costly manual workflow</strong></li>
                     <li><span>02</span><strong>Build around existing tools and handoffs</strong></li>
                     <li><span>03</span><strong>Improve from real use, not a theoretical spec</strong></li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="service partner" id="partner" aria-labelledby="partner-title">
+            <div class="service-grid shell reveal">
+                <div class="service-title">
+                    <p class="section-label">Bulakao Partner</p>
+                    <h2 id="partner-title">Relevant creators. Clear terms. One owner from brief to report.</h2>
+                </div>
+                <span class="section-number" aria-hidden="true">02</span>
+
+                <div class="service-intro">
+                    <p class="service-copy">Partner helps brands find creators who fit the audience and campaign, helps creators assess the opportunity, and keeps the work moving through delivery and reporting.</p>
+                    <div class="service-action">
+                        <a class="button" href="https://partner.bulakao.com/">See how Partner works</a>
+                    </div>
+                </div>
+                <ol class="value-list">
+                    <li><span>01</span><strong>Matching based on audience and campaign fit</strong></li>
+                    <li><span>02</span><strong>Briefs, deliverables, timelines, and approvals</strong></li>
+                    <li><span>03</span><strong>Coordination from outreach through reporting</strong></li>
                 </ol>
             </div>
         </section>
@@ -686,18 +789,20 @@
 
             const fragment = document.createDocumentFragment();
 
-            for (let index = 0; index < 118; index += 1) {
+            for (let index = 0; index < 176; index += 1) {
                 const star = document.createElement("span");
                 const colorRoll = random();
-                const size = 0.8 + random() * 2;
+                const size = 0.8 + random() * 2.5;
+                const bright = size > 2.65 || index % 23 === 0;
 
-                star.className = "star";
+                star.className = bright ? "star bright" : "star";
                 star.style.setProperty("--x", `${(random() * 100).toFixed(2)}%`);
                 star.style.setProperty("--y", `${(random() * 100).toFixed(2)}%`);
                 star.style.setProperty("--size", `${size.toFixed(2)}px`);
-                star.style.setProperty("--alpha", (0.24 + random() * 0.62).toFixed(2));
-                star.style.setProperty("--glow", `${(4 + random() * 12).toFixed(1)}px`);
-                star.style.setProperty("--speed", `${(4 + random() * 7).toFixed(1)}s`);
+                star.style.setProperty("--alpha", (0.32 + random() * 0.66).toFixed(2));
+                star.style.setProperty("--glow", `${(6 + random() * 16).toFixed(1)}px`);
+                star.style.setProperty("--halo", `${(22 + random() * 28).toFixed(1)}px`);
+                star.style.setProperty("--speed", `${(3.5 + random() * 8).toFixed(1)}s`);
                 star.style.setProperty("--delay", `${(-random() * 8).toFixed(1)}s`);
                 star.style.setProperty(
                     "--color",
@@ -709,6 +814,25 @@
                 );
                 fragment.append(star);
             }
+
+            const comets = [
+                { size: "large", x: "92%", y: "14%", angle: "-24deg", travel: "-620px", speed: "15s", delay: "-2s" },
+                { size: "small", x: "74%", y: "38%", angle: "-18deg", travel: "-390px", speed: "10s", delay: "-6s" },
+                { size: "medium", x: "98%", y: "68%", angle: "-30deg", travel: "-560px", speed: "13s", delay: "-9s" },
+                { size: "small", x: "58%", y: "24%", angle: "-21deg", travel: "-340px", speed: "11s", delay: "-12s" }
+            ];
+
+            comets.forEach((spec) => {
+                const comet = document.createElement("span");
+                comet.className = `comet ${spec.size}`;
+                comet.style.setProperty("--comet-x", spec.x);
+                comet.style.setProperty("--comet-y", spec.y);
+                comet.style.setProperty("--comet-angle", spec.angle);
+                comet.style.setProperty("--comet-travel", spec.travel);
+                comet.style.setProperty("--comet-speed", spec.speed);
+                comet.style.setProperty("--comet-delay", spec.delay);
+                fragment.append(comet);
+            });
 
             sky.append(fragment);
         }

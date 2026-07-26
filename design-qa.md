@@ -21,7 +21,7 @@
 - Tablet implementation: 768 × 1024 CSS viewport and 768 × 1024 screenshot pixels.
 - Mobile implementation: 390 × 844 CSS viewport and 390 × 844 screenshot pixels.
 - Device density: 1 CSS pixel per screenshot pixel.
-- State: dark theme, star field loaded, reveal transitions settled, no hover or focus lock.
+- State: dark theme, galaxy field and comet motion loaded, reveal transitions settled, no hover or focus lock.
 - The selected concept is a compressed full-page mock, while the implementation gives each of the three sections a practical viewport-scale reading experience. Fidelity was judged section by section rather than by total page height.
 
 ## Findings
@@ -31,9 +31,9 @@ No actionable P0, P1, or P2 issues remain.
 ### Required fidelity surfaces
 
 - **Fonts and typography:** Bree Serif remains the display face and the system sans-serif stack remains the body face. The implementation preserves the concept’s strong serif hierarchy while adjusting line wrapping for readable desktop, tablet, and mobile compositions. No text clips or truncates.
-- **Spacing and layout rhythm:** Hero, Partner, and Solutions remain distinct sections with generous negative space and light dividers. The revised structure uses fewer, stronger alignments: the Hero runs wide; Partner pairs a full editorial headline with a lower copy/list split; Solutions offsets its headline against a large section index and ends in a three-part process band.
+- **Spacing and layout rhythm:** Hero, Solutions, and Partner remain distinct sections with generous negative space and light dividers. The revised structure uses fewer, stronger alignments: the Hero runs wide; Solutions offsets its headline against a large section index and ends in a three-part process band; Partner pairs a full editorial headline with a lower copy/list split.
 - **Colors and visual tokens:** Near-black, off-white, muted gray, coral, gold, and sky blue map directly to the Bulakao family. Accent colors retain sufficient contrast on the fixed night background.
-- **Image quality and asset fidelity:** The generated concept is used only as a design reference. Production uses no photographic space image, repeated background image, placeholder art, or rasterized UI. One fixed background contains the deterministic code-generated star field requested by the user.
+- **Image quality and asset fidelity:** The generated concept is used only as a design reference. Production uses no photographic space image, repeated background image, placeholder art, or rasterized UI. One fixed background contains the deterministic code-generated galaxy field, brighter star clusters, and restrained comet passes requested by the user.
 - **Copy and content:** The hero now leads with the shared customer problem: campaigns and operations accumulating loose ends. Partner makes campaign ownership concrete from matching through reporting; Solutions names a practical entry point—one costly manual workflow—and explains how the work improves from real use. Cosmic metaphors, agency filler, and branching-site language were removed.
 - **Icons and controls:** The final design does not require decorative icons. CTA controls use underlined text links and color states consistent with the selected editorial direction.
 - **Responsiveness:** No horizontal overflow at 1440, 1280, 768, or 390 pixels. Desktop asymmetry collapses into a clear single-column mobile reading order. CTA targets are at least 52 pixels high.
@@ -74,14 +74,20 @@ No actionable P0, P1, or P2 issues remain.
    - Fix: widened the Hero; rebuilt Partner as an editorial split; rebuilt Solutions as an offset proposition followed by a horizontal process band; replaced detached outline buttons with integrated text links.
    - Post-fix evidence: `audits/layout-2026-07-26/after/`, plus the refreshed implementation captures listed above.
 
+5. **Sky depth and comet restoration.**
+   - Earlier issue: the fixed star field had become too faint and no longer included the coded shooting-star movement used elsewhere in the Bulakao family.
+   - Fix: increased deterministic star density and luminosity, strengthened the blue/coral/gold galaxy haze, and restored four staggered coded comet passes inside the same fixed background layer.
+   - Reduced-motion mode hides comet animation while retaining the static sky.
+   - Post-fix evidence: the refreshed desktop, tablet, mobile, and social-preview captures.
+
 ## Open Questions
 
 None blocking.
 
 ## Implementation Checklist
 
-- [x] Three sections only: Hero, Partner, Solutions.
-- [x] One fixed code-generated star background.
+- [x] Three sections only: Hero, Solutions, Partner.
+- [x] One fixed code-generated galaxy background with stars and comets.
 - [x] Concrete value-led copy.
 - [x] Working destination links.
 - [x] Desktop, tablet, and mobile verification.
