@@ -1,0 +1,11 @@
+title: Bulakao
+url: "https://bulakao.com"
+baseurl: ""
+strict_front_matter: true
+
+exclude:
+  - audits
+  - BUSINESS.md
+  - design-qa.md
+  - README.md
+  - SPEC.md
